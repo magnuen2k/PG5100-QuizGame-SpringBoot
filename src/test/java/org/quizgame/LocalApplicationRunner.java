@@ -1,4 +1,5 @@
-import org.quizgame.Application;
+package org.quizgame;
+
 import org.springframework.boot.SpringApplication;
 
 public class LocalApplicationRunner {
