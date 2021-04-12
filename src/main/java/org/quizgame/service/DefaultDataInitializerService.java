@@ -16,6 +16,9 @@ public class DefaultDataInitializerService {
     @Autowired
     private QuizService quizService;
 
+    @Autowired
+    private UserService userService;
+
     /*
         Note: this is tricky...
         Handling of default data in database (and migrations in general), should be
@@ -37,6 +40,8 @@ public class DefaultDataInitializerService {
 
     @PostConstruct
     public void initialize(){
+
+        attempt(() -> userService.createUser("asd", "asd"));
 
         Long ctgSE = attempt(() -> categoryService.createCategory("Software Engineering"));
         Long ctgH = attempt(() -> categoryService.createCategory("History"));

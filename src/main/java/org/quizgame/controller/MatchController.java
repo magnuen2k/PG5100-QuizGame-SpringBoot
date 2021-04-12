@@ -3,6 +3,7 @@ package org.quizgame.controller;
 import org.quizgame.entity.Category;
 import org.quizgame.entity.Quiz;
 import org.quizgame.service.CategoryService;
+import org.quizgame.service.MatchStatsService;
 import org.quizgame.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,13 +14,19 @@ import java.util.List;
 
 @Named
 @SessionScoped
-public class MatchController implements Serializable {
+public class MatchController implements Serializable{
 
     @Autowired
     private CategoryService categoryService;
 
     @Autowired
     private QuizService quizService;
+
+    @Autowired
+    private MatchStatsService statsService;
+
+    @Autowired
+    private UserInfoController infoController;
 
     private final int NUMBER_QUIZZES = 5;
 
@@ -32,7 +39,13 @@ public class MatchController implements Serializable {
         return gameIsOn;
     }
 
-    public String newMatch() {
+    public String newMatch(){
+
+        String username = infoController.getUserName();
+
+        if(gameIsOn){
+            statsService.reportDefeat(username);
+        }
         gameIsOn = true;
 
         selectedCategoryId = null;
@@ -40,21 +53,17 @@ public class MatchController implements Serializable {
         return "/ui/match.jsf?faces-redirect=true";
     }
 
-    public List<Category> getCategories() {
-        return categoryService.getAllCategories(false);
-    }
-
-    public boolean isCategorySelected() {
+    public boolean isCategorySelected(){
         return selectedCategoryId != null;
     }
 
-    public void selectCategory(long id) {
+    public void selectCategory(long id){
         selectedCategoryId = id;
         counter = 0;
         questions = quizService.getRandomQuizzes(NUMBER_QUIZZES, selectedCategoryId);
     }
 
-    public Quiz getCurrentQuiz() {
+    public Quiz getCurrentQuiz(){
         return questions.get(counter);
     }
 
@@ -68,19 +77,27 @@ public class MatchController implements Serializable {
 
     public String answerQuiz(int index){
 
+        String username = infoController.getUserName();
+
         Quiz quiz = getCurrentQuiz();
         if(index == quiz.getCorrectAnswerIndex()){
             counter++;
             if(counter == NUMBER_QUIZZES){
                 gameIsOn = false;
+                statsService.reportVictory(username);
                 return "result.jsf?victory=true&faces-redirect=true";
             }
         } else {
             gameIsOn = false;
+            statsService.reportDefeat(username);
             return "result.jsf?defeat=true&faces-redirect=true";
         }
 
         return null;
     }
 
+    public List<Category> getCategories(){
+
+        return categoryService.getAllCategories(false);
+    }
 }
