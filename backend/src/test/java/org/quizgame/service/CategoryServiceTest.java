@@ -2,7 +2,7 @@ package org.quizgame.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.quizgame.Application;
+import org.quizgame.StubApplication;
 import org.quizgame.entity.Category;
 import org.quizgame.entity.SubCategory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Application.class,
+@SpringBootTest(classes = StubApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class CategoryServiceTest extends ServiceTestBase {
 
