@@ -1,5 +1,7 @@
 # PG5100-QuizGame-SpringBoot
 
+[![Java CI with Maven](https://github.com/magnuen2k/PG5100-QuizGame-SpringBoot/actions/workflows/maven.yml/badge.svg)](https://github.com/magnuen2k/PG5100-QuizGame-SpringBoot/actions/workflows/maven.yml)
+
 ![](doc/img/quiz-time.jpeg  "Quiz Time Image")
 
 ### Description
