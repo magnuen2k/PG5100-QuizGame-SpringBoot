@@ -38,7 +38,7 @@ public class DefaultDataInitializerService {
         restart, and then restart Wildfly at least twice against the same database
      */
 
-    @PostConstruct
+    //@PostConstruct
     public void initialize(){
 
         attempt(() -> userService.createUser("asd", "asd"));

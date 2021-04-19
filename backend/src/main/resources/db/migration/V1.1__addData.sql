@@ -1,0 +1,1 @@
+insert into category(name, id) values('Test Category', 1000);
